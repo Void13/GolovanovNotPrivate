@@ -11,9 +11,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{13B4318B-8704-493C-A0BE-B23700C4F5CF}</ProjectGuid>
+    <ProjectGuid>{ECDE230D-2B2B-40DC-8B45-5233F0921557}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>Lab2</RootNamespace>
+    <RootNamespace>Lab4</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -76,13 +76,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="BigInt.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="Matrix.cpp" />
+    <ClInclude Include="BakeryFactory.h" />
+    <ClInclude Include="BakeryProducts.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BigInt.h" />
-    <ClInclude Include="Matrix.h" />
+    <ClCompile Include="BakeryFactory.cpp" />
+    <ClCompile Include="BakeryProducts.cpp" />
+    <ClCompile Include="main.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -196,14 +196,6 @@ CMatrix const CMatrix::operator-()
 
 CMatrix const CMatrix::operator+() const
 {
-	for (size_t i = 0; i < m_pMatrix->size(); i++)
-	{
-		for (size_t j = 0; j < (*m_pMatrix)[0]->size(); j++)
-		{
-			(*(*m_pMatrix)[i])[j] = (*(*m_pMatrix)[i])[j];
-		}
-	}
-
 	return *this;
 }
 

@@ -14,12 +14,12 @@
 
 int main()
 {
-#ifdef _DEBUG
+	#ifdef _DEBUG
 	_CrtSetDbgFlag( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF );
 	_CrtDumpMemoryLeaks();
-#endif
+	#endif
 
-	
+        
 	CChessKing King(CChessBaseFigure::FIGURE_BLACK, DirectX::XMINT2(7, 4));
 	CChessKnight Knight(CChessBaseFigure::FIGURE_BLACK, DirectX::XMINT2(2, 1));
 
@@ -32,8 +32,8 @@ int main()
 	pFigures[1] = &Knight;
 
 	CChessKing WKing(CChessBaseFigure::FIGURE_WHITE, DirectX::XMINT2(0, 3));
-	
-	
+        
+        
 	/*
 	// check
 	CChessKing BKing(CChessBaseFigure::FIGURE_BLACK, DirectX::XMINT2(4, 7));

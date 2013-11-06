@@ -115,55 +115,8 @@ void ClearZeroes(CBigInt &_Number)
 
 CBigInt const operator+(CBigInt const &_First, CBigInt const &_Second)
 {
-	CBigInt result;
-	long long int nCarrier = 0;
-
-	if (_First.m_bIsNeg && _Second.m_bIsNeg)
-		result.m_bIsNeg = true;
-		
-	if (_First.m_bIsNeg && !_Second.m_bIsNeg)
-	{
-		CBigInt TmpFirst = _First;
-		TmpFirst.m_bIsNeg = false;
-		result = _Second - TmpFirst;
-	}
-	else if (!_First.m_bIsNeg && _Second.m_bIsNeg)
-	{
-		CBigInt TmpSecond = _Second;
-		TmpSecond.m_bIsNeg = false;
-		result = _First - TmpSecond;
-	}
-	else 
-	{
-		for (int i = 0; i < (int)std::max(_First.m_pNumber->size(), _Second.m_pNumber->size()); i++)
-		{
-			if (!nCarrier)
-			{
-				if (i >= (int)_First.m_pNumber->size())
-				{
-					result.m_pNumber->insert(result.m_pNumber->end(), _Second.m_pNumber->begin() + i, _Second.m_pNumber->end());
-					break;
-				} 
-				else if (i >= (int)_Second.m_pNumber->size())
-				{
-					result.m_pNumber->insert(result.m_pNumber->end(), _First.m_pNumber->begin() + i, _First.m_pNumber->end());
-					break;
-				}
-			}
-
-			int nX = i >= (int)_First.m_pNumber->size() ? 0 : _First.m_pNumber->at(i);
-			int nY = i >= (int)_Second.m_pNumber->size() ? 0 : _Second.m_pNumber->at(i);
-
-			long long int llR = nX + nY + nCarrier;
-
-			result.m_pNumber->push_back(llR % 10);
-
-			nCarrier = llR / 10;
-		}
-
-		if (nCarrier)
-			result.m_pNumber->push_back((int)nCarrier);
-	}
+	CBigInt result(_First);
+	result += _Second;
 	return result;
 };
 
@@ -273,6 +226,13 @@ CBigInt const CBigInt::operator-() const
 
 CBigInt const operator-(CBigInt const &_First, CBigInt const &_Second)
 {
+	CBigInt result(_First);
+	result -= _Second;
+	return result;
+};
+
+CBigInt const &CBigInt::operator-=(CBigInt const &_Second)
+{
 	CBigInt result;
 
 	auto _Subtract = [&result](CBigInt const &__First, CBigInt const &__Second)
@@ -281,19 +241,6 @@ CBigInt const operator-(CBigInt const &_First, CBigInt const &_Second)
 
 		for (int i = 0; i < (int)std::max(__First.m_pNumber->size(), __Second.m_pNumber->size()); i++)
 		{
-			/*
-			if (!nCarrier)
-			{
-				if (i >= (int)__Second.m_pNumber->size())
-					break;
-				else if (i >= (int)__First.m_pNumber->size())
-				{
-					//result->insert(result.m_pNumber->end(), _Second.m_pNumber->begin() + i, _Second.m_pNumber->end());
-					break;
-				}
-			}
-			*/
-
 			int nX = i >= (int)__First.m_pNumber->size() ? 0 : __First.m_pNumber->at(i);
 			int nY = i >= (int)__Second.m_pNumber->size() ? 0 : __Second.m_pNumber->at(i);
 
@@ -311,83 +258,12 @@ CBigInt const operator-(CBigInt const &_First, CBigInt const &_Second)
 
 		ClearZeroes(result);
 	};
-		
-	if (_First.m_bIsNeg && _Second.m_bIsNeg && _First >= _Second)
-	{
-		_Subtract(_Second, _First);
-		result.m_bIsNeg = true;
-	}
-	else if (_First.m_bIsNeg && !_Second.m_bIsNeg)
-	{
-		CBigInt TmpSecond = _Second;
-		TmpSecond.m_bIsNeg = true;
-		result = _First + TmpSecond;
-	}
-	else if (!_First.m_bIsNeg && _Second.m_bIsNeg)
-	{
-		CBigInt TmpSecond = _Second;
-		TmpSecond.m_bIsNeg = false;
-		result = _First + TmpSecond;
-	}
-	else 
-	{
-		if (_First > _Second)
-		{
-			_Subtract(_First, _Second);
-			result.m_bIsNeg = false;
-		}
-		else 
-		{
-			_Subtract(_Second, _First);
-			result.m_bIsNeg = true;
-		}
-	}
-
-	return result;
-};
-
-CBigInt const &CBigInt::operator-=(CBigInt const &_Second)
-{
-	auto _Subtract = [](CBigInt const &__First, CBigInt const &__Second)
-	{
-		int nThisNumberSize = (int)__First.m_pNumber->size();
-		long long int nCarrier = 0;
-
-		for (int i = 0; i < std::max((int)__Second.m_pNumber->size(), nThisNumberSize); i++)
-		{
-			if (!nCarrier)
-			{
-				if (i >= (int)__Second.m_pNumber->size())
-					break;
-				else if (i >= (int)__First.m_pNumber->size())
-				{
-					__First.m_pNumber->insert(__First.m_pNumber->end(), __Second.m_pNumber->begin() + i, __Second.m_pNumber->end());
-					break;
-				}
-			}
-
-			int nX = i >= (int)__Second.m_pNumber->size() ? 0 : __Second.m_pNumber->at(i);
-			int nY = i >= nThisNumberSize ? 0 : __First.m_pNumber->at(i);
-
-			long long int llR = nX + nY + nCarrier;
-
-			if (i < nThisNumberSize)
-				(*__First.m_pNumber)[i] = (llR % 10);
-			else
-				__First.m_pNumber->push_back(llR % 10);
-
-			nCarrier = llR / 10;
-		}
-
-		if (nCarrier)
-			__First.m_pNumber->push_back((int)nCarrier);
-	};
 
 	if (m_bIsNeg && _Second.m_bIsNeg)
 	{
 		CBigInt TmpSecond = _Second;
 		TmpSecond.m_bIsNeg = false;
-		*this = TmpSecond - *this;
+		_Subtract(TmpSecond, *this);
 	}
 	else if (!m_bIsNeg && _Second.m_bIsNeg)
 	{
@@ -415,6 +291,7 @@ CBigInt const &CBigInt::operator-=(CBigInt const &_Second)
 		}
 	}
 
+	*this = std::move(result);
 	return *this;
 };
 
@@ -471,11 +348,11 @@ CBigInt const &CBigInt::operator--()
 	return *this;
 };
 
-CBigInt const operator*(CBigInt const &_First, CBigInt const &_Second)
+CBigInt const &CBigInt::operator*=(CBigInt const &_Second)
 {
 	CBigInt result;
 
-	result.m_bIsNeg = _First.m_bIsNeg ^  _Second.m_bIsNeg;
+	result.m_bIsNeg = m_bIsNeg ^  _Second.m_bIsNeg;
 
 	for (int i = 0; i < (int)_Second.m_pNumber->size(); i++)
 	{
@@ -485,9 +362,9 @@ CBigInt const operator*(CBigInt const &_First, CBigInt const &_Second)
 		for (int j = 0; j < i; j++)
 			k.m_pNumber->push_back(0);
 
-		for (int j = 0; j < (int)_First.m_pNumber->size(); j++)
+		for (int j = 0; j < (int)m_pNumber->size(); j++)
 		{
-			int nX = _First.m_pNumber->at(j);
+			int nX = m_pNumber->at(j);
 			int nY = _Second.m_pNumber->at(i);
 
 			int llR = nX * nY + nCarrier;
@@ -501,6 +378,14 @@ CBigInt const operator*(CBigInt const &_First, CBigInt const &_Second)
 		result += k;
 	}
 
+	*this = std::move(result);
+	return *this;
+};
+
+CBigInt const operator*(CBigInt const &_First, CBigInt const &_Second)
+{
+	CBigInt result(_First);
+	result *= _Second;
 	return result;
 };
 

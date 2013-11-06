@@ -1,7 +1,9 @@
 #include <stdio.h>
 #include <conio.h>
 #include <iostream>
+#include <memory>
 
+#ifdef LAB2
 #define TASK1
 
 #ifndef TASK1
@@ -44,7 +46,7 @@ int main()
 int main()
 {
 	CBigInt a;
-	CBigInt b("-1206");
+	CBigInt b("194932943294294943294294329423432");
 	CBigInt c(1207);
 
 	a = c;
@@ -58,6 +60,8 @@ int main()
 	else 
 		std::cout << "\nAs expected\n";
 
+	b *= 2;
+
 	std::cout << b++ << std::endl;
 	std::cout << c - 1 << std::endl;
 	std::cout << (b += 7) << std::endl;
@@ -66,3 +70,21 @@ int main()
 	return 0;
 }
 #endif
+#endif
+
+std::unique_ptr<int> func()
+{
+	std::unique_ptr<int> ptr(new int);
+
+	*ptr = 2;
+
+	return ptr;
+}
+
+int main()
+{
+	func();
+
+	_getch();
+	return 0;
+};

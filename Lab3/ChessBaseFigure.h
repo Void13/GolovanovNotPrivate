@@ -17,7 +17,9 @@ public:
 		FIGURE_COLOR_COUNT
 	};
 
+protected:
 	CChessBaseFigure(FIGURE_COLOR _Color, DirectX::XMINT2 &_vPos);
+public:
 	virtual ~CChessBaseFigure();
 
 	virtual void Draw() const = 0;

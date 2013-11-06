@@ -79,7 +79,7 @@
     <ClCompile Include="ChessBaseFigure.cpp" />
     <ClCompile Include="ChessBoard.cpp" />
     <ClCompile Include="ChessFigures.cpp" />
-    <ClCompile Include="Lab3.cpp" />
+    <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ChessBaseFigure.h" />
